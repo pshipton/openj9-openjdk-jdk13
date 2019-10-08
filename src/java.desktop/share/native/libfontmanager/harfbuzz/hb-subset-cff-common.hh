@@ -280,6 +280,7 @@ struct flatten_param_t
 {
   str_buff_t     &flatStr;
   bool  drop_hints;
+  flatten_param_t(str_buff_t& sbt, bool dh) : flatStr(sbt), drop_hints(dh) {}
 };
 
 template <typename ACC, typename ENV, typename OPSET>
@@ -305,7 +306,7 @@ struct subr_flattener_t
         return false;
       cs_interpreter_t<ENV, OPSET, flatten_param_t> interp;
       interp.env.init (str, acc, fd);
-      flatten_param_t  param = { flat_charstrings[i], drop_hints };
+      flatten_param_t  param(flat_charstrings[i], drop_hints);
       if (unlikely (!interp.interpret (param)))
         return false;
     }
